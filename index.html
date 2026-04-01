@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>Secure Login (Single Page)</title>
 
-<!-- SHA-256 Hash Library -->
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.4.2/sha256.js"></script>
 
 <style>
@@ -89,7 +89,7 @@
 </div>
 
 <script>
-    // YOUR UPDATED HASHED CREDENTIALS
+
     const storedUserHash = "b4bf5d7e5fcf89ef8adb64ec9c624db850d10f2afef020ed9ef23892df0833af"; 
     const storedPassHash = "280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02";
 
@@ -114,12 +114,12 @@
         }
     }
 
-    // ENTER key submits login
+    
     document.addEventListener("keydown", function(e) {
         if (e.key === "Enter") login();
     });
 
-    // Arrow keys navigation
+    
     document.addEventListener("keydown", function(e) {
         if (e.key === "ArrowDown" || e.key === "ArrowRight")
             document.getElementById("password").focus();
