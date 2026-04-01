@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Secure Login (Single Page)</title>
+
+<!-- SHA-256 Hash Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.4.2/sha256.js"></script>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial;
+    }
+
+    .box {
+        width: 330px;
+        padding: 40px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.2);
+        animation: fade 0.7s ease;
+    }
+
+    @keyframes fade {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    input, button {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 6px;
+        border: 1px solid #aaa;
+        font-size: 16px;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    button:hover {
+        background: #005fcc;
+    }
+
+    #msg {
+        text-align: center;
+        margin-top: 10px;
+        color: red;
+        font-weight: bold;
+    }
+
+    #success {
+        display: none;
+        font-size: 22px;
+        text-align: center;
+        color: green;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="box" id="loginBox">
+    <h2>Secure Login</h2>
+
+    <input type="text" id="username" placeholder="Username">
+    <input type="password" id="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p id="msg"></p>
+</div>
+
+<div class="box" id="success">
+    🎉 <br><br>
+    <b>Login Successful!</b> <br><br>
+    Welcome to your secure page.
+</div>
+
+<script>
+    // YOUR UPDATED HASHED CREDENTIALS
+    const storedUserHash = "b4bf5d7e5fcf89ef8adb64ec9c624db850d10f2afef020ed9ef23892df0833af"; 
+    const storedPassHash = "280d44ab1e9f79b5cce2dd4f58f5fe91f0fbacdac9f7447dffc318ceb79f2d02";
+
+    function sha256(input) {
+        let shaObj = new jsSHA("SHA-256", "TEXT");
+        shaObj.update(input);
+        return shaObj.getHash("HEX");
+    }
+
+    function login() {
+        let user = document.getElementById("username").value;
+        let pass = document.getElementById("password").value;
+
+        let userHash = sha256(user);
+        let passHash = sha256(pass);
+
+        if (userHash === storedUserHash && passHash === storedPassHash) {
+            document.getElementById("loginBox").style.display = "none";
+            document.getElementById("success").style.display = "block";
+        } else {
+            document.getElementById("msg").innerText = "Invalid Credentials!";
+        }
+    }
+
+    // ENTER key submits login
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "Enter") login();
+    });
+
+    // Arrow keys navigation
+    document.addEventListener("keydown", function(e) {
+        if (e.key === "ArrowDown" || e.key === "ArrowRight")
+            document.getElementById("password").focus();
+
+        if (e.key === "ArrowUp" || e.key === "ArrowLeft")
+            document.getElementById("username").focus();
+    });
+</script>
+
+</body>
+</html>
